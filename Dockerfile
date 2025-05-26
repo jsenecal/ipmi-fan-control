@@ -59,9 +59,13 @@ HEALTHCHECK --interval=60s --timeout=10s --start-period=5s --retries=3 \
 # Default command - shows help
 CMD ["ipmi-fan", "--help"]
 
+# Build arguments for version
+ARG VERSION=unknown
+
 # Labels for metadata
 LABEL maintainer="IPMI Fan Control"
 LABEL description="Dell IPMI Fan Control Tool"
-LABEL version="0.1.0"
+LABEL version="${VERSION}"
 LABEL org.opencontainers.image.source="https://github.com/jsenecal/ipmi-fan-control"
 LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.version="${VERSION}"

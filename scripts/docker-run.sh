@@ -41,9 +41,31 @@ check_env_file() {
 
 # Function to build the Docker image
 build_image() {
-    print_info "Building Docker image..."
-    docker build -t jsenecal/ipmi-fan-control:latest .
-    print_success "Docker image built successfully"
+    local push_flag="$1"
+    
+    # Get version from pyproject.toml
+    local version=$(./scripts/get_version.sh)
+    if [ $? -ne 0 ]; then
+        print_error "Failed to get version"
+        exit 1
+    fi
+    
+    print_info "Building Docker image version ${version}..."
+    
+    # Build with version as build arg
+    docker build --build-arg VERSION="$version" \
+        -t jsenecal/ipmi-fan-control:latest \
+        -t jsenecal/ipmi-fan-control:"$version" .
+    
+    print_success "Docker image built successfully (version: $version)"
+    
+    # Push if requested
+    if [ "$push_flag" = "--push" ] || [ "$push_flag" = "-p" ]; then
+        print_info "Pushing Docker images..."
+        docker push jsenecal/ipmi-fan-control:latest
+        docker push jsenecal/ipmi-fan-control:"$version"
+        print_success "Docker images pushed successfully"
+    fi
 }
 
 # Function to run different commands
@@ -95,7 +117,7 @@ show_usage() {
     echo "Usage: $0 [command] [options]"
     echo
     echo "Commands:"
-    echo "  build              Build the Docker image"
+    echo "  build [--push|-p]  Build the Docker image (optionally push to registry)"
     echo "  status             Show fan status"
     echo "  temp               Show temperature sensors"
     echo "  test [quick|full]  Run compatibility test (default: quick)"
@@ -106,7 +128,8 @@ show_usage() {
     echo "  logs               Show container logs (when running with docker-compose)"
     echo
     echo "Examples:"
-    echo "  $0 build"
+    echo "  $0 build          # Build image locally"
+    echo "  $0 build --push   # Build and push to registry"
     echo "  $0 status"
     echo "  $0 test full"
     echo "  $0 set 50"
@@ -118,7 +141,7 @@ show_usage() {
 # Main script logic
 case "${1:-}" in
     build)
-        build_image
+        build_image "$2"
         ;;
     status)
         check_env_file && run_status
