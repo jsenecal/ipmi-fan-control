@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  ipmi-fan-control:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ipmi-fan-control
+    restart: unless-stopped
+    
+    # Environment variables - customize these or use a .env file
+    environment:
+      IPMI_HOST: "${IPMI_HOST:-192.168.1.100}"
+      IPMI_PORT: "${IPMI_PORT:-623}"
+      IPMI_USERNAME: "${IPMI_USERNAME:-admin}"
+      IPMI_PASSWORD: "${IPMI_PASSWORD:-password}"
+      IPMI_INTERFACE: "${IPMI_INTERFACE:-lanplus}"
+      IPMI_DEBUG: "${IPMI_DEBUG:-false}"
+      IPMI_AUTO_RESTORE: "${IPMI_AUTO_RESTORE:-true}"
+      IPMI_OUTPUT_FORMAT: "${IPMI_OUTPUT_FORMAT:-table}"
+      # PID Controller defaults
+      IPMI_PID_TARGET_TEMP: "${IPMI_PID_TARGET_TEMP:-60.0}"
+      IPMI_PID_INTERVAL: "${IPMI_PID_INTERVAL:-30.0}"
+      IPMI_PID_P_GAIN: "${IPMI_PID_P_GAIN:-0.1}"
+      IPMI_PID_I_GAIN: "${IPMI_PID_I_GAIN:-0.02}"
+      IPMI_PID_D_GAIN: "${IPMI_PID_D_GAIN:-0.01}"
+      IPMI_PID_MIN_SPEED: "${IPMI_PID_MIN_SPEED:-30.0}"
+      IPMI_PID_MAX_SPEED: "${IPMI_PID_MAX_SPEED:-100.0}"
+    
+    # Volume for persistent data (logs, configs)
+    volumes:
+      - ipmi-data:/app/data
+    
+    # Network mode for IPMI access
+    network_mode: host
+    
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    read_only: false  # Set to true if you don't need write access
+    
+    # Override command for different operations
+    # Uncomment one of these or override via docker-compose run
+    
+    # Default: Show status once
+    command: ["ipmi-fan", "status"]
+    
+    # Run PID controller (uncomment to use)
+    # command: ["ipmi-fan", "pid", "--target", "65"]
+    
+    # Set fan speed to 50% (uncomment to use)
+    # command: ["ipmi-fan", "set", "50"]
+    
+    # Run compatibility test (uncomment to use)
+    # command: ["ipmi-fan", "test", "--full"]
+
+volumes:
+  ipmi-data:
+    driver: local
