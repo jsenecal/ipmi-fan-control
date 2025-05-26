@@ -42,29 +42,29 @@ check_env_file() {
 # Function to build the Docker image
 build_image() {
     print_info "Building Docker image..."
-    docker build -t ipmi-fan-control:latest .
+    docker build -t jsenecal/ipmi-fan-control:latest .
     print_success "Docker image built successfully"
 }
 
 # Function to run different commands
 run_status() {
     print_info "Running fan status check..."
-    docker run --rm --env-file .env --network host ipmi-fan-control:latest ipmi-fan status
+    docker run --rm --env-file .env --network host jsenecal/ipmi-fan-control:latest ipmi-fan status
 }
 
 run_temp() {
     print_info "Running temperature status check..."
-    docker run --rm --env-file .env --network host ipmi-fan-control:latest ipmi-fan temp
+    docker run --rm --env-file .env --network host jsenecal/ipmi-fan-control:latest ipmi-fan temp
 }
 
 run_test() {
     local test_type="${1:-quick}"
     if [ "$test_type" = "full" ]; then
         print_info "Running full compatibility test..."
-        docker run --rm --env-file .env --network host ipmi-fan-control:latest ipmi-fan test --full
+        docker run --rm --env-file .env --network host jsenecal/ipmi-fan-control:latest ipmi-fan test --full
     else
         print_info "Running quick compatibility test..."
-        docker run --rm --env-file .env --network host ipmi-fan-control:latest ipmi-fan test --quick
+        docker run --rm --env-file .env --network host jsenecal/ipmi-fan-control:latest ipmi-fan test --quick
     fi
 }
 
@@ -75,19 +75,19 @@ run_set_speed() {
         exit 1
     fi
     print_info "Setting fan speed to ${speed}%..."
-    docker run --rm --env-file .env --network host ipmi-fan-control:latest ipmi-fan set "$speed"
+    docker run --rm --env-file .env --network host jsenecal/ipmi-fan-control:latest ipmi-fan set "$speed"
 }
 
 run_auto() {
     print_info "Enabling automatic fan control..."
-    docker run --rm --env-file .env --network host ipmi-fan-control:latest ipmi-fan auto
+    docker run --rm --env-file .env --network host jsenecal/ipmi-fan-control:latest ipmi-fan auto
 }
 
 run_pid() {
     local target_temp="${1:-60}"
     print_info "Starting PID temperature control (target: ${target_temp}°C)..."
     print_warning "Press Ctrl+C to stop"
-    docker run --rm --env-file .env --network host -it ipmi-fan-control:latest ipmi-fan pid --target "$target_temp"
+    docker run --rm --env-file .env --network host -it jsenecal/ipmi-fan-control:latest ipmi-fan pid --target "$target_temp"
 }
 
 # Function to show usage
@@ -140,7 +140,7 @@ case "${1:-}" in
         ;;
     shell)
         print_info "Opening interactive shell..."
-        docker run --rm --env-file .env --network host -it ipmi-fan-control:latest /bin/bash
+        docker run --rm --env-file .env --network host -it jsenecal/ipmi-fan-control:latest /bin/bash
         ;;
     logs)
         print_info "Showing container logs..."

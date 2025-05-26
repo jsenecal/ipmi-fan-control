@@ -189,7 +189,7 @@ The Docker containers use the same environment variables as the CLI. You can eit
 
 2. Set variables directly in docker-compose.yml or pass them to docker run:
    ```bash
-   docker run --rm -e IPMI_HOST=192.168.1.100 -e IPMI_USERNAME=root ipmi-fan-control status
+   docker run --rm -e IPMI_HOST=192.168.1.100 -e IPMI_USERNAME=root jsenecal/ipmi-fan-control status
    ```
 
 ## PID Controller
