@@ -3,3 +3,8 @@
 .pytest_cache
 htmlcov
 .env
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*.so
