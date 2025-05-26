@@ -53,8 +53,8 @@ ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD ipmi-fan --help > /dev/null || exit 1
+HEALTHCHECK --interval=60s --timeout=10s --start-period=5s --retries=3 \
+    CMD ipmi-fan status || exit 1
 
 # Default command - shows help
 CMD ["ipmi-fan", "--help"]
@@ -63,4 +63,5 @@ CMD ["ipmi-fan", "--help"]
 LABEL maintainer="IPMI Fan Control"
 LABEL description="Dell IPMI Fan Control Tool"
 LABEL version="0.1.0"
-LABEL org.opencontainers.image.source="https://github.com/user/ipmi-script"
+LABEL org.opencontainers.image.source="https://github.com/jsenecal/ipmi-fan-control"
+LABEL org.opencontainers.image.licenses="MIT"
