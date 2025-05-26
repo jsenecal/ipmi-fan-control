@@ -3,6 +3,7 @@
 .pytest_cache
 htmlcov
 .env
+.coverage
 
 # Python cache files
 __pycache__/
