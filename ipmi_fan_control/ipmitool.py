@@ -1,11 +1,10 @@
 """IPMI interface for Dell server fan control using ipmitool."""
 
-import json
 import re
 import subprocess
 import threading
 import time
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import Any, Dict, List, Optional, Union
 
 from ipmi_fan_control.pid import PIDController
 from ipmi_fan_control.types import StatusCallback
@@ -203,7 +202,7 @@ class DellIPMIToolFanController:
                                 "unit": unit,
                                 "status": status
                             })
-                except Exception as e2:
+                except Exception:
                     # If both methods fail, raise the first error
                     raise e1
             

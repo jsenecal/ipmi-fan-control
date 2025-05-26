@@ -2,7 +2,7 @@
 
 import threading
 import time
-from typing import Any, Callable, Dict, List, Optional, Tuple, Union, cast
+from typing import Any, Dict, List, Optional, cast
 
 import pyipmi
 import pyipmi.interfaces

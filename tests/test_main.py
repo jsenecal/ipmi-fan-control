@@ -1,11 +1,9 @@
 """Tests for the main entry point."""
 
+import importlib.util
 import subprocess
 import sys
-from unittest.mock import patch, MagicMock
-import importlib.util
-
-import pytest
+from unittest.mock import patch
 
 
 class TestMainEntryPoint:
@@ -46,6 +44,7 @@ class TestMainEntryPoint:
         result = subprocess.run(
             [sys.executable, '-m', 'ipmi_fan_control', '--help'],
             capture_output=True,
+            check=False,
             text=True,
             timeout=10
         )

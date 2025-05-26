@@ -1,14 +1,13 @@
 """Integration tests for the CLI interface."""
 
 import json
-import sys
 from unittest.mock import MagicMock, patch
 
 import pytest
 from typer.testing import CliRunner
 
 # Import the CLI
-from ipmi_fan_control.cli import app, OutputFormat
+from ipmi_fan_control.cli import OutputFormat, app
 
 # Import the controller
 from ipmi_fan_control.ipmitool import DellIPMIToolFanController
@@ -290,7 +289,7 @@ class TestCLI:
     @patch('ipmi_fan_control.cli.IPMIController')
     def test_connect_controller_helper(self, mock_controller_class, cli_runner, mock_controller):
         """Test the connect_controller helper function."""
-        from ipmi_fan_control.cli import connect_controller, OutputFormat
+        from ipmi_fan_control.cli import connect_controller
         
         mock_controller_class.return_value = mock_controller
         
@@ -308,6 +307,7 @@ class TestCLI:
         
         # Re-import the module to trigger detection logic
         import importlib
+
         import ipmi_fan_control.cli
         importlib.reload(ipmi_fan_control.cli)
         
@@ -317,8 +317,9 @@ class TestCLI:
     @patch('ipmi_fan_control.cli.IPMIController')
     def test_signal_handler(self, mock_controller_class, cli_runner, mock_controller):
         """Test signal handler functionality."""
-        from ipmi_fan_control.cli import setup_cleanup
         import signal
+
+        from ipmi_fan_control.cli import setup_cleanup
         
         mock_controller_class.return_value = mock_controller
         
@@ -328,7 +329,6 @@ class TestCLI:
                 setup_cleanup(mock_controller, auto_restore=True)
                 
                 # Trigger signal handler
-                import ipmi_fan_control.cli
                 handler_func = None
                 with patch('ipmi_fan_control.cli.signal.signal') as mock_signal:
                     setup_cleanup(mock_controller, auto_restore=True)

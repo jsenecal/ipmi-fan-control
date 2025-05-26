@@ -1,6 +1,6 @@
 """Type definitions for the IPMI fan control module."""
 
-from typing import Any, Dict, List, Protocol, TypeVar, Union
+from typing import Any, Dict, Protocol
 
 # Define types for IPMI interfaces
 IPMIInterface = Any  # Replace with actual type when available

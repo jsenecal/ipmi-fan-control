@@ -1,12 +1,10 @@
 """Enhanced logging using Rich's logging handler."""
 
 import logging
-import sys
 from typing import Any, Dict, List
 
 from rich.console import Console
 from rich.logging import RichHandler
-from rich.table import Table
 
 
 class EnhancedLogger:

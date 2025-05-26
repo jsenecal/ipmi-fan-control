@@ -157,7 +157,8 @@ def callback(
         True,
         "--auto-restore/--no-auto-restore",
         envvar="IPMI_AUTO_RESTORE",
-        help="Automatically restore Dell default dynamic fan control on exit (env: IPMI_AUTO_RESTORE)",
+        help="Automatically restore Dell default dynamic fan control on exit "
+             "(env: IPMI_AUTO_RESTORE)",
     ),
     output: OutputFormat = typer.Option(
         OutputFormat.TABLE,
@@ -179,7 +180,7 @@ def callback(
         # Enable pyipmi debug logging if applicable
         if not USING_IPMITOOL:
             try:
-                import pyipmi
+                import pyipmi  # noqa: F401
 
                 pyipmi_logger = logging.getLogger("pyipmi")
                 pyipmi_logger.setLevel(logging.DEBUG)
@@ -385,13 +386,15 @@ def test_compatibility(
         True,
         "--quick/--full",
         envvar="IPMI_TEST_QUICK",
-        help="Quick test (status only) or full test (including brief fan control) (env: IPMI_TEST_QUICK)",
+        help="Quick test (status only) or full test (including brief fan control) "
+             "(env: IPMI_TEST_QUICK)",
     ),
     diagnostic: bool = typer.Option(
         False,
         "--diagnostic",
         envvar="IPMI_TEST_DIAGNOSTIC",
-        help="Run additional diagnostic tests and show raw command outputs (env: IPMI_TEST_DIAGNOSTIC)",
+        help="Run additional diagnostic tests and show raw command outputs "
+             "(env: IPMI_TEST_DIAGNOSTIC)",
     ),
 ):
     """Test Dell server compatibility."""
@@ -660,7 +663,8 @@ def pid_control(
         None,
         "--time",
         envvar="IPMI_PID_RUNTIME",
-        help="Run time in seconds (runs until Ctrl+C if not specified) (env: IPMI_PID_RUNTIME)",
+        help="Run time in seconds (runs until Ctrl+C if not specified) "
+             "(env: IPMI_PID_RUNTIME)",
     ),
 ):
     """Run temperature-based fan control with PID controller."""

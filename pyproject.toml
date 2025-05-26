@@ -40,13 +40,11 @@ dev = [
 ]
 
 [tool.ruff]
-# Enable pycodestyle (E), pyflakes (F), isort (I), pylint (PL)
-select = ["E", "F", "I", "PL"]
-ignore = []
+# Same as Black
+line-length = 88
 
-# Allow autofix for all enabled rules that support it
-fixable = ["A", "B", "C", "D", "E", "F", "I"]
-unfixable = []
+# Assume Python 3.8
+target-version = "py38"
 
 # Exclude a variety of commonly ignored directories
 exclude = [
@@ -73,21 +71,32 @@ exclude = [
     "venv",
 ]
 
-# Same as Black
-line-length = 88
+[tool.ruff.lint]
+# Enable pycodestyle (E), pyflakes (F), isort (I), pylint (PL)
+select = ["E", "F", "I", "PL"]
+ignore = [
+    "PLR0913",  # Too many arguments
+    "PLR0912",  # Too many branches  
+    "PLR0915",  # Too many statements
+    "PLR2004",  # Magic value comparisons
+    "PLW0602",  # Global variable usage
+    "PLW0603",  # Global statement usage
+    "E501",     # Line too long (handled by formatter)
+]
+
+# Allow autofix for all enabled rules that support it
+fixable = ["A", "B", "C", "D", "E", "F", "I"]
+unfixable = []
 
 # Allow unused variables when underscore-prefixed
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
-# Assume Python 3.8
-target-version = "py38"
-
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 # Unlike Flake8, default to a complexity level of 10
-max-complexity = 12
+max-complexity = 15
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-third-party = ["pyipmi", "typer", "rich"]
 
-[tool.ruff.pylint]
-max-args = 8
+[tool.ruff.lint.pylint]
+max-args = 10

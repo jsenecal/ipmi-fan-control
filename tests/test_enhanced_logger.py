@@ -1,9 +1,7 @@
 """Tests for the enhanced logger module."""
 
 import logging
-from unittest.mock import patch, MagicMock
-
-import pytest
+from unittest.mock import patch
 
 from ipmi_fan_control.enhanced_logger import EnhancedLogger, logger
 
@@ -312,7 +310,6 @@ class TestEnhancedLogger:
 
     def test_global_logger_instance(self):
         """Test that global logger instance is properly created."""
-        from ipmi_fan_control.enhanced_logger import logger
         
         assert isinstance(logger, EnhancedLogger)
         assert logger.logger.name == "ipmi-fan-control"
