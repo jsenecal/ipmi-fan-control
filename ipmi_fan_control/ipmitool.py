@@ -411,8 +411,8 @@ class DellIPMIToolFanController:
                 else:
                     fan_speed = int(computed_speed)
                 
-                # Validate fan speed within safe range
-                fan_speed = max(min(fan_speed, 100), 30)  # Clamp between 30% and 100%
+                # Validate fan speed within configured PID controller range
+                fan_speed = max(min(fan_speed, self.pid.output_max), self.pid.output_min)
                 
                 # Set fan speed
                 self.set_fan_speed(fan_speed)
