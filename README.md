@@ -151,6 +151,20 @@ ipmi-fan status
 
 The tool includes full Docker support for easy deployment and isolation:
 
+#### Using Pre-built Images
+
+Pre-built Docker images are available on GitHub Container Registry:
+
+```bash
+# Pull the latest image
+docker pull ghcr.io/jsenecal/ipmi-fan-control:latest
+
+# Run commands using the pre-built image
+docker run --rm -e IPMI_HOST=192.168.1.100 -e IPMI_USERNAME=root -e IPMI_PASSWORD=calvin ghcr.io/jsenecal/ipmi-fan-control:latest status
+```
+
+#### Building Locally
+
 ```bash
 # Build the Docker image
 ./scripts/docker-run.sh build
@@ -189,7 +203,7 @@ The Docker containers use the same environment variables as the CLI. You can eit
 
 2. Set variables directly in docker-compose.yml or pass them to docker run:
    ```bash
-   docker run --rm -e IPMI_HOST=192.168.1.100 -e IPMI_USERNAME=root jsenecal/ipmi-fan-control status
+   docker run --rm -e IPMI_HOST=192.168.1.100 -e IPMI_USERNAME=root ghcr.io/jsenecal/ipmi-fan-control:latest status
    ```
 
 ## PID Controller

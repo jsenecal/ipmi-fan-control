@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   ipmi-fan-control:
-    image: jsenecal/ipmi-fan-control:latest
+    image: ghcr.io/jsenecal/ipmi-fan-control:latest
     build:
       context: .
       dockerfile: Dockerfile
